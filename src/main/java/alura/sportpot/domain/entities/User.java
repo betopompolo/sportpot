@@ -12,6 +12,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User {
   @Id
@@ -19,29 +21,38 @@ public class User {
   private Long id;
 
   @Column(unique = true)
-  private String login;
+  private String email;
 
   @Size(min = 6)
+  @JsonIgnore
   private String hashedPassword;
   
   @PastOrPresent
   private LocalDateTime createdAt = LocalDateTime.now();    
+
+  public User() {
+    
+  }
   
-  public User(@NotEmpty @Email String login, @NotEmpty @Size(min = 6) String password) {
-    this.login = login;
+  public User(@NotEmpty @Email String email, @NotEmpty @Size(min = 6) String password) {
+    this.email = email;
     this.hashedPassword = password;
   }
 
-  public Long getId() {
+  public User(String email) {
+    this.email = email;
+  }
+
+public Long getId() {
     return id;
   }
 
-  public String getLogin() {
-    return login;
+  public String getEmail() {
+    return email;
   }
 
-  public void setLogin(String login) {
-    this.login = login;
+  public void setEmail(String login) {
+    this.email = login;
   }
 
   public String getHashedPassword() {
