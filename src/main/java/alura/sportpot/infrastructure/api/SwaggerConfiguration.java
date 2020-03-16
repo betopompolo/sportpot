@@ -1,4 +1,4 @@
-package alura.sportpot.api;
+package alura.sportpot.infrastructure.api;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
