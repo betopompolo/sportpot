@@ -1,12 +1,14 @@
 package alura.sportpot.domain.entities;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -21,16 +23,27 @@ public class Team {
   @NotBlank
   @Column(unique = true, nullable = false)
   private String name;
-  
-  @Past 
+
+  @Past
   @NotNull
   private LocalDateTime foundationDate;
+
+  @ManyToMany(mappedBy = "teams")
+  private Set<Championship> championships;
 
   public Team(@NotEmpty String name, @NotEmpty @Past LocalDateTime foundationDate) {
     this.name = name;
     this.foundationDate = foundationDate;
   }
-  
+
+  public Set<Championship> getChampionships() {
+    return championships;
+  }
+
+  public void setChampionships(Set<Championship> championships) {
+    this.championships = championships;
+  }
+
   public Long getId() {
     return id;
   }
