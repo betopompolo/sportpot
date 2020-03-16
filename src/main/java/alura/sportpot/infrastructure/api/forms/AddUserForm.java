@@ -1,4 +1,4 @@
-package alura.sportpot.infrastructure.api;
+package alura.sportpot.infrastructure.api.forms;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

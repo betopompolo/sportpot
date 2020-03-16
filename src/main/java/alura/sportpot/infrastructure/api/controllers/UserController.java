@@ -1,4 +1,4 @@
-package alura.sportpot.infrastructure.api;
+package alura.sportpot.infrastructure.api.controllers;
 
 import javax.validation.Valid;
 
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import alura.sportpot.domain.entities.User;
 import alura.sportpot.domain.use_cases.AddUserUseCase;
+import alura.sportpot.infrastructure.api.forms.AddUserForm;
 
 @RestController
 @RequestMapping("/user")
