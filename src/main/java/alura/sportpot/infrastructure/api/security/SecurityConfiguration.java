@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * SecurityConfiguration
@@ -19,6 +20,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private TokenService tokenService;
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -49,6 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .anyRequest()
       .authenticated()
       .and()
+      .addFilterAt(new JwtAuthenticationFilter(this.tokenService, this.userService), UsernamePasswordAuthenticationFilter.class)
       .sessionManagement()
       .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
