@@ -19,14 +19,15 @@ public class LoginUserUseCase {
   private HashValueUseCase hashValueUseCase;
   
 
-  public Boolean execute(User inputUser) {
+  public User execute(User inputUser) {
     if (inputUser == null) {
-      return false;
+      return null;
     }
 
     String inputHashedPassword = hashValueUseCase.execute(inputUser.getHashedPassword());
     User user = userRepository.findByEmail(inputUser.getEmail());
+    Boolean isAuthenticated = user.getHashedPassword().equals(inputHashedPassword);
 
-    return user.getHashedPassword().equals(inputHashedPassword);
-  }  
+    return isAuthenticated ? user : null;
+  }
 }

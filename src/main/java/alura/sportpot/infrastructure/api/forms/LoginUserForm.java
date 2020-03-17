@@ -2,7 +2,7 @@ package alura.sportpot.infrastructure.api.forms;
 
 import javax.validation.constraints.NotBlank;
 
-import alura.sportpot.domain.entities.User;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 public class LoginUserForm {
   @NotBlank
@@ -11,7 +11,7 @@ public class LoginUserForm {
   @NotBlank
   public String password;
 
-  public User build() {
-    return new User(login, password);
+  public UsernamePasswordAuthenticationToken buildAuthentication() {
+    return new UsernamePasswordAuthenticationToken(login, password);
   }
 }
