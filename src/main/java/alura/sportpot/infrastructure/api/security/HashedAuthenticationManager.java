@@ -24,13 +24,14 @@ public class HashedAuthenticationManager implements AuthenticationManager {
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
     String login = authentication.getPrincipal().toString();
     String password = authentication.getCredentials().toString();
-    User user = loginUseCase.execute(new User(login, password));
-
-    if (user == null) {
+    
+    try {
+      User user = loginUseCase.execute(new User(login, password));      
+      
+      return new UsernamePasswordAuthenticationToken(user.getEmail(), user.getHashedPassword());
+    } catch (Exception e) {
       throw new BadCredentialsException("Usuário ou senha incorretos");
     }
-    
-    return new UsernamePasswordAuthenticationToken(user.getEmail(), user.getHashedPassword());
   }
 
   

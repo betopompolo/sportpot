@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import alura.sportpot.infrastructure.api.forms.AuthenticationTokenResponse;
 import alura.sportpot.infrastructure.api.forms.LoginUserForm;
+import alura.sportpot.infrastructure.api.security.TokenService;
 
 /**
  * AuthenticationController
@@ -25,17 +27,20 @@ public class AuthenticationController {
 
   @Autowired
   private AuthenticationManager authenticationManager;
+  
+  @Autowired
+  private TokenService tokenService;
 
   @PostMapping("/user")
-  public ResponseEntity<String> userLogin(@Valid @RequestBody LoginUserForm form) {
+  public ResponseEntity<?> userLogin(@Valid @RequestBody LoginUserForm form) {
     UsernamePasswordAuthenticationToken token = form.buildAuthentication();
 
 		try {
 			Authentication authentication = authenticationManager.authenticate(token); 			
-			// String jwt = tokenManager.generateToken(authentication);
+      String jwt = tokenService.generate(authentication);
 			
-			// AuthenticationTokenOutputDto tokenResponse = new AuthenticationTokenOutputDto("Bearer", jwt);
-			return ResponseEntity.ok().build();
+			AuthenticationTokenResponse tokenResponse = new AuthenticationTokenResponse(jwt);
+			return ResponseEntity.status(HttpStatus.OK).body(tokenResponse);
 		
 		} catch (AuthenticationException e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Usuário ou senha incorretos");

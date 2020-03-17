@@ -19,9 +19,9 @@ public class LoginUserUseCase {
   private HashValueUseCase hashValueUseCase;
   
 
-  public User execute(User inputUser) {
+  public User execute(User inputUser) throws Exception {
     if (inputUser == null) {
-      return null;
+      throw new Exception();
     }
 
     String inputHashedPassword = hashValueUseCase.execute(inputUser.getHashedPassword());
