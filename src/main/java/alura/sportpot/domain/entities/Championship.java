@@ -44,6 +44,13 @@ public class Championship {
     this.numberOfTeams = numberOfTeams;
   }
 
+  public Championship(@NotBlank String name, @FutureOrPresent LocalDateTime startDate, Integer numberOfTeams, Set<Team> teams) {
+    this.name = name;
+    this.startDate = startDate;
+    this.numberOfTeams = numberOfTeams;
+    this.teams = teams;
+  }
+
   public Set<Team> getTeams() {
     return teams;
   }

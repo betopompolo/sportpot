@@ -31,6 +31,11 @@ public class Team {
   @ManyToMany(mappedBy = "teams")
   private Set<Championship> championships;
 
+
+  public Team(Long id) {
+    this.id = id;
+  }
+
   public Team(@NotEmpty String name, @NotEmpty @Past LocalDateTime foundationDate) {
     this.name = name;
     this.foundationDate = foundationDate;

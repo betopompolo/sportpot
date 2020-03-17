@@ -21,7 +21,7 @@ public class ChampionshipController {
 
 
   @PostMapping("/add")
-  Championship add(@Valid @RequestBody AddChampionshipForm form) {
+  Championship add(@Valid @RequestBody AddChampionshipForm form) throws Exception {
     return addChampionshipUseCase.execute(form.build());
   }
   
