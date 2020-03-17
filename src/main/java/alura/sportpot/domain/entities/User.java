@@ -28,7 +28,7 @@ public class User {
   private String hashedPassword;
   
   @PastOrPresent
-  private LocalDateTime createdAt = LocalDateTime.now();    
+  private LocalDateTime createdAt = LocalDateTime.now();
 
   public User() {
     
