@@ -32,7 +32,7 @@ public class AddBetUseCase {
     if (bet.getCreatedBy() == null) {
       throw new Exception("O criador do bolão não foi encontrado");
     }
-
+    
     Set<BetInvite> invites = bet.getInvites();
 
     if (invites == null || invites.isEmpty()) {
@@ -53,6 +53,5 @@ public class AddBetUseCase {
     createdBet.setInvites(createdInvites);
 
     return createdBet;
-  }
-  
+  } 
 }
