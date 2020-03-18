@@ -20,9 +20,12 @@ public class UserService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User user = getUserUseCase.execute(username);
-
-    return new LoggedUser(user);
+    try {
+      User user = getUserUseCase.execute(username);
+      return new LoggedUser(user);
+    } catch (Exception e) {
+      throw new UsernameNotFoundException(e.getMessage());
+    }
   }
 
   

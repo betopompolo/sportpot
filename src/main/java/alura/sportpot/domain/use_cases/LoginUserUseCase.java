@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import alura.sportpot.domain.entities.User;
-import alura.sportpot.infrastructure.database.UserRepository;
 
 
 /**
@@ -13,7 +12,7 @@ import alura.sportpot.infrastructure.database.UserRepository;
 @Service
 public class LoginUserUseCase {
   @Autowired
-  private UserRepository userRepository;
+  private GetUserUseCase getUserUseCase;
   
   @Autowired
   private HashValueUseCase hashValueUseCase;
@@ -25,7 +24,7 @@ public class LoginUserUseCase {
     }
 
     String inputHashedPassword = hashValueUseCase.execute(inputUser.getHashedPassword());
-    User user = userRepository.findByEmail(inputUser.getEmail());
+    User user = getUserUseCase.execute(inputUser.getEmail());
     Boolean isAuthenticated = user.getHashedPassword().equals(inputHashedPassword);
 
     return isAuthenticated ? user : null;

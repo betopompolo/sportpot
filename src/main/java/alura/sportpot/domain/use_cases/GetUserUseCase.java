@@ -14,8 +14,8 @@ public class GetUserUseCase {
   @Autowired
   private UserRepository userRepository;
 
-  public User execute(String email) {
-    return userRepository.findByEmail(email);
+  public User execute(String email) throws Exception {
+    return userRepository.findFirstByEmail(email).orElseThrow(() -> new Exception("Usuário não encontrado"));
   }
   
 }
