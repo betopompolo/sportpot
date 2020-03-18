@@ -38,6 +38,14 @@ public class Championship {
   )
   private Set<Team> teams;
 
+  public Championship() {
+
+  }
+
+  public Championship(Long id) {
+    this.id = id;
+  }
+
   public Championship(@NotBlank String name, @FutureOrPresent LocalDateTime startDate, Integer numberOfTeams) {
     this.name = name;
     this.startDate = startDate;

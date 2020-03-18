@@ -1,12 +1,16 @@
 package alura.sportpot.domain.entities;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * Bet
@@ -18,13 +22,27 @@ public class Bet {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(optional = false)
   private User createdBy;
 
   private LocalDateTime createdAt = LocalDateTime.now();
 
   @ManyToOne
   private Championship championship;
+
+  @OneToMany(mappedBy = "bet")
+  @JsonManagedReference
+  private Set<BetInvite> invites;
+
+  public Bet() {
+
+  }
+
+  public Bet(User createdBy, Long championshipId, Set<BetInvite> invites) {
+    this.createdBy = createdBy;
+    this.championship = new Championship(championshipId);
+    this.invites = invites;
+  }
 
   public Long getId() {
     return id;
@@ -44,5 +62,13 @@ public class Bet {
 
   public Championship getChampionship() {
     return championship;
+  }
+
+  public Set<BetInvite> getInvites() {
+    return invites;
+  }
+
+  public void setInvites(Set<BetInvite> invites) {
+    this.invites = invites;
   }
 }

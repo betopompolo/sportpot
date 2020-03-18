@@ -62,4 +62,8 @@ public Long getId() {
   public void setHashedPassword(String password) {
     this.hashedPassword = password;
   }
+
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
 }

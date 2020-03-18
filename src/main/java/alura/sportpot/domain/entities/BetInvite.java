@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * BetInvite
  */
@@ -22,10 +24,29 @@ public class BetInvite {
   private LocalDateTime expirationDate;
 
   @ManyToOne
+  @JsonBackReference
   private Bet bet;
+
+  private String emailToInvite;
+
+  public BetInvite() {
+
+  }
+
+  public BetInvite(String emailToInvite) {
+    this.emailToInvite = emailToInvite;
+  }
 
   public Long getId() {
     return id;
+  }
+
+  public String getEmailToInvite() {
+    return emailToInvite;
+  }
+
+  public void setEmailToInvite(String invitedEmail) {
+    this.emailToInvite = invitedEmail;
   }
 
   public void setId(Long id) {
@@ -42,5 +63,9 @@ public class BetInvite {
 
   public Bet getBet() {
     return bet;
-  }  
+  }
+  
+  public void setBet(Bet bet) {
+    this.bet = bet;
+  }
 }

@@ -1,7 +1,5 @@
 package alura.sportpot.infrastructure.api.security;
 
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,12 +22,7 @@ public class UserService implements UserDetailsService {
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     User user = getUserUseCase.execute(username);
 
-    return org.springframework.security.core.userdetails.User
-      .builder()
-      .username(user.getEmail())
-      .password(user.getHashedPassword())
-      .authorities(Collections.emptyList())
-      .build();
+    return new LoggedUser(user);
   }
 
   
