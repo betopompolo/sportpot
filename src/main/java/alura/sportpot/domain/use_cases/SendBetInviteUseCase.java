@@ -36,7 +36,7 @@ public class SendBetInviteUseCase {
   }
 
   private String buildAcceptInviteHyperLink(BetInvite invite, String hyperlinkLabel) {
-    String url = "http://localhost:8080/invite/accept?invite_id=" + invite.getId();
+    String url = "http://localhost:8080/bet/accept-invite?inviteId=" + invite.getId();
     String hyperLink = "<a href=" + url + ">" + hyperlinkLabel + "</a>";
     
     return hyperLink;

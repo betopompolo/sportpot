@@ -86,4 +86,8 @@ public class Bet {
   public Set<User> getParticipants() {
     return participants;
   }
+
+  public void addParticipant(User participant) {
+    this.participants.add(participant);
+  }
 }
