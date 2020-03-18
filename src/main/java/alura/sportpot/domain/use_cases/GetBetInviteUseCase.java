@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import alura.sportpot.domain.entities.BetInvite;
+import alura.sportpot.domain.use_cases.exceptions.BetInviteAcceptedException;
 import alura.sportpot.domain.use_cases.exceptions.BetInviteExpiredException;
 import alura.sportpot.infrastructure.database.BetInviteRepository;
 
@@ -40,6 +41,10 @@ public class GetBetInviteUseCase {
 
     if (now.isEqual(expirationDate) || now.isAfter(expirationDate)) {
       throw new BetInviteExpiredException("Convite expirado");
+    }
+
+    if (betInvite.getAcceptedAt() != null) {
+      throw new BetInviteAcceptedException("O convite já foi aceito");
     }
   }
   

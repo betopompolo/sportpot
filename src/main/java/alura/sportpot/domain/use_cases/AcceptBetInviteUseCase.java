@@ -1,5 +1,7 @@
 package alura.sportpot.domain.use_cases;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +28,9 @@ public class AcceptBetInviteUseCase {
     BetInvite invite = getBetInviteUseCase.execute(inviteId, true);
     User invitedUser = userUseCase.execute(invite.getEmailToInvite());
     Bet bet = invite.getBet();
-
+    
     bet.addParticipant(invitedUser);
+    invite.setAcceptedAt(LocalDateTime.now());
   }
   
 }

@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import alura.sportpot.domain.entities.Bet;
 import alura.sportpot.domain.entities.User;
 import alura.sportpot.domain.use_cases.AcceptBetInviteUseCase;
 import alura.sportpot.domain.use_cases.AddBetUseCase;
 import alura.sportpot.domain.use_cases.SendBetInviteUseCase;
+import alura.sportpot.domain.use_cases.exceptions.BetInviteAcceptedException;
 import alura.sportpot.domain.use_cases.exceptions.BetInviteExpiredException;
 import alura.sportpot.domain.use_cases.exceptions.UserNotFoundException;
 import alura.sportpot.infrastructure.api.forms.AddBetForm;
@@ -52,20 +54,22 @@ public class BetController {
   }
 
   @GetMapping("/accept-invite")
-  public ResponseEntity<String> acceptInvite(@RequestParam(required = true) Long inviteId) {
+  public Object acceptInvite(@RequestParam(required = true) Long inviteId) {
+
     try {
       acceptBetInviteUseCase.execute(inviteId);
-      return ResponseEntity.ok("Invite accepted! :D");
+      return "Pronto! Agora você faz parte do bolão";
     } catch (Exception e) {
       if (e instanceof UserNotFoundException) {
-        return ResponseEntity.ok("Go to register page");
+        return new RedirectView("/user/add?inviteId="+inviteId, true);
       }
 
-      if (e instanceof BetInviteExpiredException) {
+      if (e instanceof BetInviteExpiredException || e instanceof BetInviteAcceptedException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
       }
 
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Não foi possível aceitar o convite");
     }
   }
+
 }

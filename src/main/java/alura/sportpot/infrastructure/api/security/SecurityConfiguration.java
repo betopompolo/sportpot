@@ -46,11 +46,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         "/configuration/security",
         "/webjars/**",
         "/swagger-ui.html",
-        "/bet/accept-invite"
-      )
-      .permitAll()
-      .antMatchers(HttpMethod.POST, "/login/user")
-      .permitAll()
+        "/bet/accept-invite",
+        "/user/add/**"
+      ).permitAll()
+      .antMatchers(HttpMethod.POST, "/login/user").permitAll()
       .anyRequest()
       .authenticated()
       .and()
