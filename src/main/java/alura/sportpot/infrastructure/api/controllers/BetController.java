@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import alura.sportpot.domain.entities.Bet;
+import alura.sportpot.domain.entities.User;
 import alura.sportpot.domain.use_cases.AddBetUseCase;
 import alura.sportpot.domain.use_cases.SendBetInviteUseCase;
 import alura.sportpot.infrastructure.api.forms.AddBetForm;
@@ -32,8 +33,9 @@ public class BetController {
   @PostMapping("/add")
   public Bet add(@Valid @RequestBody AddBetForm form, @ApiIgnore Authentication authentication) throws Exception {
     LoggedUser loggedUser = (LoggedUser) authentication.getPrincipal();
+    User user = loggedUser.getUser();
     
-    Bet createdBet = addBetUseCase.execute(form.build(loggedUser.getUser()));
+    Bet createdBet = addBetUseCase.execute(form.build(user));
     sendBetInviteUseCase.execute(createdBet.getInvites());
 
     return createdBet;

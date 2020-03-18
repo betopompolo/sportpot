@@ -29,14 +29,24 @@ public class BetInvite {
 
   private String emailToInvite;
 
+  private LocalDateTime acceptedAt;
+
   public BetInvite() {
 
   }
-
+  
   public BetInvite(String emailToInvite) {
     this.emailToInvite = emailToInvite;
   }
+  
+  public LocalDateTime getAcceptedAt() {
+    return acceptedAt;
+  }
 
+  public void setAcceptedAt(LocalDateTime acceptedAt) {
+    this.acceptedAt = acceptedAt;
+  }
+  
   public Long getId() {
     return id;
   }

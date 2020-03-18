@@ -22,10 +22,10 @@ public class SendBetInviteUseCase {
       emailService.sendMessage(
         betInvite.getEmailToInvite(), 
         "Você foi convidado para um bolão!", 
-        "Entre no link para aceitar o convite"
+        buildAcceptInviteHyperLink(betInvite, "Clique aqui") + " para aceitar o convite"
       );
     } catch (Exception e) {
-      throw new Exception("Não foi possível enviar os convites do bolão");
+      throw new Exception("Não foi possível enviar o convite do bolão");
     }
   }
 
@@ -33,5 +33,12 @@ public class SendBetInviteUseCase {
     for (BetInvite betInvite : invites) {
       this.execute(betInvite);
     }
+  }
+
+  private String buildAcceptInviteHyperLink(BetInvite invite, String hyperlinkLabel) {
+    String url = "http://localhost:8080/invite/accept?invite_id=" + invite.getId();
+    String hyperLink = "<a href=" + url + ">" + hyperlinkLabel + "</a>";
+    
+    return hyperLink;
   }
 }

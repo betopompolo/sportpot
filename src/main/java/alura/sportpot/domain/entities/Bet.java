@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -33,6 +36,14 @@ public class Bet {
   @OneToMany(mappedBy = "bet")
   @JsonManagedReference
   private Set<BetInvite> invites;
+
+  @ManyToMany
+  @JoinTable(
+    name = "bet_user",
+    joinColumns = @JoinColumn(name = "bet_id"),
+    inverseJoinColumns = @JoinColumn(name = "user_id")
+  )
+  private Set<User> participants;
 
   public Bet() {
 
@@ -70,5 +81,9 @@ public class Bet {
 
   public void setInvites(Set<BetInvite> invites) {
     this.invites = invites;
+  }
+
+  public Set<User> getParticipants() {
+    return participants;
   }
 }
