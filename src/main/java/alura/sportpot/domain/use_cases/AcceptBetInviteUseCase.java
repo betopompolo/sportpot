@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import alura.sportpot.domain.entities.Bet;
 import alura.sportpot.domain.entities.BetInvite;
 import alura.sportpot.domain.entities.User;
+import alura.sportpot.domain.use_cases.exceptions.UserNotFoundException;
 
 /**
  * AcceptBetInviteUseCase
@@ -21,15 +22,12 @@ public class AcceptBetInviteUseCase {
   private GetUserUseCase userUseCase;
 
   @Transactional
-  public void execute(Long inviteId) throws Exception {
+  public void execute(Long inviteId) throws Exception, UserNotFoundException {
     BetInvite invite = getBetInviteUseCase.execute(inviteId, true);
     User invitedUser = userUseCase.execute(invite.getEmailToInvite());
     Bet bet = invite.getBet();
 
     bet.addParticipant(invitedUser);
-
-
-
   }
   
 }

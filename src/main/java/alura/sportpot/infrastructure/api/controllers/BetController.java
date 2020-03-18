@@ -3,6 +3,8 @@ package alura.sportpot.infrastructure.api.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +18,8 @@ import alura.sportpot.domain.entities.User;
 import alura.sportpot.domain.use_cases.AcceptBetInviteUseCase;
 import alura.sportpot.domain.use_cases.AddBetUseCase;
 import alura.sportpot.domain.use_cases.SendBetInviteUseCase;
+import alura.sportpot.domain.use_cases.exceptions.BetInviteExpiredException;
+import alura.sportpot.domain.use_cases.exceptions.UserNotFoundException;
 import alura.sportpot.infrastructure.api.forms.AddBetForm;
 import alura.sportpot.infrastructure.api.security.LoggedUser;
 import springfox.documentation.annotations.ApiIgnore;
@@ -48,12 +52,20 @@ public class BetController {
   }
 
   @GetMapping("/accept-invite")
-  public String acceptInvite(@RequestParam(required = true) Long inviteId) {
+  public ResponseEntity<String> acceptInvite(@RequestParam(required = true) Long inviteId) {
     try {
       acceptBetInviteUseCase.execute(inviteId);
-      return "Invite accepted! :D";
+      return ResponseEntity.ok("Invite accepted! :D");
     } catch (Exception e) {
-      return "Something went wrong :(\n" + e.getMessage();
+      if (e instanceof UserNotFoundException) {
+        return ResponseEntity.ok("Go to register page");
+      }
+
+      if (e instanceof BetInviteExpiredException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+      }
+
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Não foi possível aceitar o convite");
     }
   }
 }
